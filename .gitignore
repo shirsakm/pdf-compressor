@@ -1,0 +1,6 @@
+.venv/
+build/
+dist/
+compressor.spec
+test.pdf
+out.pdf
