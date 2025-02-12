@@ -11,7 +11,7 @@ def main(
     min_size = int(min_size) if min_size else 20
     max_size = int(max_size) if max_size else 1024
     file_size = getsize(file_path) // 1024
-    quality = 60
+    quality = 80
     delta = 10
 
     while not (min_size <= file_size <= max_size):
@@ -28,7 +28,8 @@ def main(
         if file_size > max_size:
             quality -= delta
         elif file_size < min_size:
-            quality = quality + (delta // 2)
+            delta //= 2
+            quality = quality + delta
 
         print(file_size, quality)
 
