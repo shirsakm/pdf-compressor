@@ -31,7 +31,7 @@ def main(
             delta //= 2
             quality = quality + delta
 
-        print(file_size, quality)
+    print(f"Succesfully compressed {file_path} to {file_size} KB @ quality {quality}%!")
 
 
 if __name__ == '__main__':
