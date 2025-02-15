@@ -83,18 +83,18 @@ def upload_file():
                 max_size=max_size
             )
 
-            return redirect(url_for('download_file', user_id=session['user_id'], name=compressed_file_name))
+            return redirect(url_for('download_file', name=compressed_file_name))
     return render_template('home.html')
 
-@app.route('/uploads/<user_id>/<name>')
-def download_file(user_id, name):
+@app.route('/uploads/<name>')
+def download_file(name):
     if 'user_id' not in session:
         flash('Unauthorized access')
         return redirect(url_for('upload_file'))
 
     # Get the user's upload directory
     user_upload_dir = os.path.join(
-        app.config['UPLOAD_FOLDER'], user_id
+        app.config['UPLOAD_FOLDER'], session['user_id']
     )
 
     return send_from_directory(user_upload_dir, name)
