@@ -9,7 +9,7 @@ from cleanup import setup_logging, cleanup_old_files
 app = Flask(__name__)
 
 ALLOWED_EXTENSIONS = {'pdf'}
-UPLOAD_FOLDER = os.path.join(app.root_path, 'uploads')
+UPLOAD_FOLDER = '/opt/render/project/src/uploads'
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
