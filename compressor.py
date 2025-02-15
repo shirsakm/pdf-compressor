@@ -25,6 +25,9 @@ def compress_pdf(
     if min_size >= max_size:
         logging.error("min_size must be less than max_size")
         return
+    
+    file_name = file_path.split('\\')[-1]
+    out_file_path = file_path.replace(".pdf", "_compressed.pdf")
 
     file_size = getsize(file_path) // 1024
     quality = 80
@@ -37,10 +40,10 @@ def compress_pdf(
                 for img in page.images:
                     img.replace(img.image, quality=quality)
 
-            with open("out.pdf", "wb") as f:
+            with open(out_file_path, "wb") as f:
                 writer.write(f)
 
-            file_size = getsize("out.pdf") // 1024
+            file_size = getsize(out_file_path) // 1024
 
             if file_size > max_size:
                 quality -= delta
@@ -58,7 +61,8 @@ def compress_pdf(
         logging.error(f"An error occurred during compression: {e}")
         return
 
-    print(f"\nSuccesfully compressed {file_path} to {file_size} KB @ {quality}% quality!")
+    print(f"\nSuccesfully compressed {file_path.split('\\')[-1]} to {file_size} KB @ {quality}% quality!")
+    return out_file_path.split('\\')[-1]
 
 
 if __name__ == '__main__':
