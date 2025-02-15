@@ -77,24 +77,24 @@ def upload_file():
 
                 return redirect(request.url)
 
-            compressed_file_path = compress_pdf(
+            compressed_file_name = compress_pdf(
                 os.path.join(user_upload_dir, filename),
                 min_size=min_size,
                 max_size=max_size
             )
 
-            return redirect(url_for('download_file', name=compressed_file_path))
+            return redirect(url_for('download_file', user_id=session['user_id'], name=compressed_file_name))
     return render_template('home.html')
 
-@app.route('/uploads/<name>')
-def download_file(name):
+@app.route('/uploads/<user_id>/<name>')
+def download_file(user_id, name):
     if 'user_id' not in session:
         flash('Unauthorized access')
         return redirect(url_for('upload_file'))
 
     # Get the user's upload directory
     user_upload_dir = os.path.join(
-        app.config['UPLOAD_FOLDER'], session['user_id']
+        app.config['UPLOAD_FOLDER'], user_id
     )
 
     return send_from_directory(user_upload_dir, name)
