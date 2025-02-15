@@ -10,6 +10,10 @@ UPLOAD_FOLDER = os.path.join(app.root_path, 'uploads')
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default')
+
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 
 def allowed_file(filename):
@@ -33,7 +37,8 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('download_file', name=filename))
+            return redirect(url_for('download_file',
+                name=filename.split('.')[0]+'_compressed.pdf'))
     return '''
     <!doctype html>
     <title>Upload new File</title>
