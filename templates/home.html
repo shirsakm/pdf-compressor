@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="header">
+        <h1>PDF Compressor</h1>
+        <p>Compress your PDF files to the desired size range</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+        <div class="form-group">
+            <label>PDF File:</label>
+            <input type="file" name="file" accept=".pdf" required>
+        </div>
+
+        <div class="form-group">
+            <label>Minimum Size (KB):</label>
+            <input type="number" name="min_size" required min="20">
+        </div>
+
+        <div class="form-group">
+            <label>Maximum Size (KB):</label>
+            <input type="number" name="max_size" required min="20">
+        </div>
+
+        <button type="submit" class="btn">Upload & Compress</button>
+    </form>
+{% endblock %}

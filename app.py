@@ -1,6 +1,6 @@
 import uuid
 import os
-from flask import Flask, flash, request, redirect, url_for, session
+from flask import Flask, flash, request, redirect, render_template, session, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from compressor import compress_pdf
@@ -42,25 +42,33 @@ def upload_file():
 
         # Validate sizes
         if not min_size or not max_size:
-            flash('Missing size constraints')
+            flash('Missing size constraints', 'error')
             return redirect(request.url)
         if min_size > max_size:
-            flash('Minimum size cannot exceed maximum size')
+            flash('Minimum size cannot exceed maximum size', 'error')
             return redirect(request.url)
 
         # check if the post request has the file part
         if 'file' not in request.files:
-            flash('No file part')
+            flash('No file part', 'error')
             return redirect(request.url)
         file = request.files['file']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
-            flash('No selected file')
+            flash('No selected file', 'error')
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(user_upload_dir, filename))
+            
+            if os.path.getsize(os.path.join(user_upload_dir, filename)) < min_size * 1024:
+                flash('File size is less than the minimum size', 'error')
+
+                # Remove the uploaded file
+                os.remove(os.path.join(user_upload_dir, filename))
+
+                return redirect(request.url)
 
             compressed_file_path = compress_pdf(
                 os.path.join(user_upload_dir, filename),
@@ -69,23 +77,7 @@ def upload_file():
             )
 
             return redirect(url_for('download_file', name=compressed_file_path))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-        <input type=file name=file>
-        <br>
-        <label>Minimum Size (KB):</label>
-        <input type="number" name="min_size" required>
-        <br>
-        <label>Maximum Size (KB):</label>
-        <input type="number" name="max_size" required>
-        <br>
-        <input type=submit value=Upload>
-    </form>
-    '''
-
+    return render_template('home.html')
 
 @app.route('/uploads/<name>')
 def download_file(name):
