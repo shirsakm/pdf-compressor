@@ -8,8 +8,19 @@
 
     <form method="post" enctype="multipart/form-data" class="upload-form">
         <div class="form-group">
-            <label>PDF File:</label>
-            <input type="file" name="file" accept=".pdf" required>
+            <label>Upload PDF:</label>
+            <div class="file-input-wrapper">
+                <input type="file" name="file" id="fileInput" class="file-input" accept=".pdf" required>
+                <label for="fileInput" class="custom-file-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Choose File
+                </label>
+                <span class="file-name" id="fileName">No file chosen</span>
+            </div>
         </div>
 
         <div class="form-group">
@@ -22,6 +33,13 @@
             <input type="number" name="max_size" required min="20">
         </div>
 
-        <button type="submit" class="btn">Upload & Compress</button>
+        <button type="submit" class="btn">Compress PDF</button>
     </form>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('fileName').textContent = fileName;
+        });
+    </script>
 {% endblock %}
