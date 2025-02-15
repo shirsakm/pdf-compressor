@@ -91,7 +91,7 @@ def upload_file():
                 compressed_path = os.path.join(user_upload_dir, compressed_file_name)
                 os.remove(compressed_path)
 
-                flash("Compression failed to meet size constraints", 'error')
+                flash(f'Could not compress below {compressed_size} (min: {min_size})', 'error')
 
                 return redirect(request.url)
 
