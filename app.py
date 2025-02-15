@@ -1,5 +1,6 @@
+import uuid
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from compressor import compress_pdf
@@ -25,6 +26,17 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
+        # Generate a unique user ID if it doesn't exist
+        if 'user_id' not in session:
+            session['user_id'] = str(uuid.uuid4())
+        
+        # Create user-specific upload folder
+        user_upload_dir = os.path.join(
+            app.config['UPLOAD_FOLDER'], session['user_id']
+        )
+        if not os.path.exists(user_upload_dir):
+            os.makedirs(user_upload_dir)
+
         min_size = request.form.get('min_size', type=int)
         max_size = request.form.get('max_size', type=int)
 
@@ -48,15 +60,15 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(user_upload_dir, filename))
 
-            compressed_filename = compress_pdf(
-                os.path.join(app.config['UPLOAD_FOLDER'], filename),
+            compressed_file_path = compress_pdf(
+                os.path.join(user_upload_dir, filename),
                 min_size=min_size,
                 max_size=max_size
             )
 
-            return redirect(url_for('download_file', name=compressed_filename))
+            return redirect(url_for('download_file', name=compressed_file_path))
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -77,4 +89,13 @@ def upload_file():
 
 @app.route('/uploads/<name>')
 def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+    if 'user_id' not in session:
+        flash('Unauthorized access')
+        return redirect(url_for('upload_file'))
+
+    # Get the user's upload directory
+    user_upload_dir = os.path.join(
+        app.config['UPLOAD_FOLDER'], session['user_id']
+    )
+
+    return send_from_directory(user_upload_dir, name)
