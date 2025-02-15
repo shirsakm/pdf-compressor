@@ -63,7 +63,7 @@ def compress_pdf(
 
     file_name = file_path.split('\\')[-1]
     print(f"\nSuccesfully compressed {file_name} to {file_size} KB @ {quality}% quality!")
-    return out_file_path.split('\\')[-1]
+    return out_file_path.split('/')[-1]
 
 
 if __name__ == '__main__':
