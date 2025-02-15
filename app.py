@@ -4,6 +4,7 @@ from flask import Flask, flash, request, redirect, render_template, session, url
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from compressor import compress_pdf
+from cleanup import cleanup_old_files
 
 app = Flask(__name__)
 
@@ -16,6 +17,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default')
 
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
+
+cleanup_old_files()
 
 
 def allowed_file(filename):
