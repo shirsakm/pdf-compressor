@@ -76,12 +76,22 @@ def upload_file():
                 os.remove(os.path.join(user_upload_dir, filename))
 
                 return redirect(request.url)
-
-            compressed_file_name = compress_pdf(
+            
+            compressed_file_name, compressed_size = compress_pdf(
                 os.path.join(user_upload_dir, filename),
                 min_size=min_size,
                 max_size=max_size
             )
+
+            if not (min_size <= compressed_size <= max_size):
+                user_upload_dir = os.path.join(
+                    app.config['UPLOAD_FOLDER'], session['user_id']
+                )
+
+                compressed_path = os.path.join(user_upload_dir, compressed_file_name)
+                os.remove(compressed_path)
+
+                return redirect(request.url)
 
             return redirect(url_for('download_file', name=compressed_file_name))
     return render_template('home.html')
