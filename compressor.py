@@ -4,7 +4,7 @@ from os.path import getsize, exists
 import logging
 
 
-def main(
+def compress_pdf(
     file_path: str,
     min_size: str = None,
     max_size: str = None,
@@ -62,4 +62,4 @@ def main(
 
 
 if __name__ == '__main__':
-    main(*sys.argv[1:])
+    compress_pdf(*sys.argv[1:])
