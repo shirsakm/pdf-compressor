@@ -61,7 +61,8 @@ def compress_pdf(
         logging.error(f"An error occurred during compression: {e}")
         return
 
-    print(f"\nSuccesfully compressed {file_path.split('\\')[-1]} to {file_size} KB @ {quality}% quality!")
+    file_name = file_path.split('\\')[-1]
+    print(f"\nSuccesfully compressed {file_name} to {file_size} KB @ {quality}% quality!")
     return out_file_path.split('\\')[-1]
 
 

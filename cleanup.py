@@ -92,6 +92,6 @@ def cleanup_old_files(logger):
 
 if __name__ == "__main__":
     logger = setup_logging()
-    logger.info("=== Starting cleanup process ===")
+    logger.info("Starting cleanup process")
     cleanup_old_files(logger)
-    logger.info("=== Cleanup completed ===")
+    logger.info("Cleanup completed")
