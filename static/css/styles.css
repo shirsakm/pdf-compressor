@@ -33,6 +33,60 @@ body {
     margin-bottom: 2rem;
 }
 
+/* Info Note Styles */
+.info-note {
+    background: #fff9e6;
+    border-left: 4px solid #ffeb99;
+    border-radius: 4px;
+    margin: 1.5rem 0;
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.info-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.75rem;
+    font-weight: 500;
+    color: #8a6d3b;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-summary::-webkit-details-marker {
+    display: none;
+}
+
+.note-content {
+    padding: 1rem;
+    border-top: 1px solid #ffeb99;
+    margin-top: 0.5rem;
+}
+
+.note-content ul {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+}
+
+.note-content li {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.toggle-icon {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+}
+
+details[open] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.info-icon {
+    font-size: 1.2em;
+}
+
 .upload-form {
     display: flex;
     flex-direction: column;
@@ -107,15 +161,6 @@ input[type="number"] {
     color: white;
 }
 
-@media (max-width: 768px) {
-    .container {
-        background: transparent;
-        box-shadow: none;
-        padding: 1rem;
-        margin: 1rem;
-    }
-}
-
 .footer {
     text-align: center;
     padding: 2rem 0;
@@ -160,4 +205,25 @@ input[type="number"] {
     margin-left: 1rem;
     color: #666;
     font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .container {
+        background: transparent;
+        box-shadow: none;
+        padding: 1rem;
+        margin: 1rem;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .info-summary {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+    
+    .note-content {
+        font-size: 0.85rem;
+    }
 }
