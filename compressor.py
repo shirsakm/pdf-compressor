@@ -46,6 +46,8 @@ def compress_pdf(
             file_size = getsize(out_file_path) // 1024
 
             if file_size > max_size:
+                if quality == delta:
+                    delta = max(1, delta // 2)
                 quality -= delta
             elif file_size < min_size:
                 delta = max(1, delta // 2)
@@ -53,8 +55,8 @@ def compress_pdf(
             
             logging.info(f"Current file size: {file_size} KB, quality: {quality}%")
 
-            if quality <= 0:
-                logging.warning("Quality reached 0, compression may not be effective.")
+            if delta == 1:
+                logging.warning("Quality reached 0, compression ineffective")
                 break
 
     except Exception as e:
