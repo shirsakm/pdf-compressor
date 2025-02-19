@@ -1,9 +1,14 @@
 :root {
-    --primary-color: #4a90e2;
-    --background-color: #f5f7fa;
-    --text-color: #2d3436;
-    --success-color: #27ae60;
-    --error-color: #e74c3c;
+    --primary-color: #1E88E5;      /* Updated blue */
+    --background-color: #ECEFF1;   /* Updated light gray */
+    --text-color: #37474F;         /* Updated dark blue-gray */
+    --success-color: #43A047;      /* Updated green */
+    --error-color: #E53935;        /* Updated red */
+}
+
+html {
+    /* Scale down overall text size */
+    font-size: 90%;
 }
 
 * {
@@ -20,12 +25,12 @@ body {
 }
 
 .container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
+    max-width: 600px;             /* Reduced width */
+    margin: 1rem auto;            /* Reduced margin */
+    padding: 1.5rem;              /* Reduced padding */
     background: white;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -35,12 +40,12 @@ body {
 
 /* Info Note Styles */
 .info-note {
-    background: #fff9e6;
-    border-left: 4px solid #ffeb99;
+    background: #fff9c4;          /* Brighter yellow background */
+    border-left: 4px solid #fff176;  /* Brighter yellow border */
     border-radius: 4px;
     margin: 1.5rem 0;
     padding: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .info-summary {
@@ -60,7 +65,7 @@ body {
 
 .note-content {
     padding: 1rem;
-    border-top: 1px solid #ffeb99;
+    border-top: 1px solid #fff176;
     margin-top: 0.5rem;
 }
 
@@ -163,7 +168,8 @@ input[type="number"] {
 
 .footer {
     text-align: center;
-    padding: 2rem 0;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
     color: #666;
     margin-top: auto;
 }
